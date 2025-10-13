@@ -46,17 +46,8 @@ if (storedUser && username === storedUser.username && password === storedUser.pa
             </div>
             
             <div className="card-body p-4 p-md-5">
-              {/* Demo credentials alert */}
-              <div className="alert alert-success d-flex align-items-center mb-4" role="alert">
-                <i className="bi bi-info-circle-fill me-2"></i>
-                <div>
-                  <small className="fw-bold">Demo Credentials:</small>
-                  <br />
-                  <small>Username: <strong>user</strong></small>
-                  <br />
-                  <small>Password: <strong>password</strong></small>
-                </div>
-              </div>
+              
+              
 
               <form onSubmit={handleSubmit}>
                 {/* Username Field */}
