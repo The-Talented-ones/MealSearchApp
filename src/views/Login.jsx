@@ -18,13 +18,16 @@ const Login = () => {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    // Simulate login (replace with real auth logic if needed)
-    if (username === "user" && password === "password") {
-      login();
-      navigate(from, { replace: true });
-    } else {
-      alert("Invalid credentials. Use Username: 'User' and Password: 'password'");
-    }
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+if (storedUser && username === storedUser.username && password === storedUser.password) {
+  login();
+  navigate("/home", { replace: true });
+} else {
+  alert("Invalid username or password. Please try again or signup first.");
+}
+
+
     
     setIsLoading(false);
   };

@@ -11,10 +11,13 @@ import Signup from "./views/Signup";
 function App() {
   return (
     <Routes>
-      <Route path="/signup" element={<Signup />} />
+      {/* Public Routes */}
+      <Route path="/" element={<Signup />} />
       <Route path="/login" element={<Login />} />
+
+      {/* Protected Routes */}
       <Route
-        path="/"
+        path="/home"
         element={
           <RequireAuth>
             <Home />
@@ -30,7 +33,9 @@ function App() {
           </RequireAuth>
         }
       />
+
       <Route path="/meal/:id" element={<MealDetails />} />
+
       <Route
         path="/meals-by-ingredient/:ingredient"
         element={

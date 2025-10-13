@@ -1,136 +1,72 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const { signup } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Simulate login (replace with real auth logic if needed)
-    if (username === "user" && password === "password") {
-      signup();
-      navigate(from, { replace: true });
-    } else {
-      alert(
-        "Invalid credentials. Use Username: 'User' and Password: 'password'"
-      );
+    // Validation
+    if (!username || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
     }
 
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    setIsLoading(true);
+
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    // Save credentials to localStorage
+    const newUser = { username, password };
+    localStorage.setItem("user", JSON.stringify(newUser));
+
+    alert("Signup successful! You can now log in.");
+    navigate("/login");
     setIsLoading(false);
   };
 
   return (
     <div className="container-fluid bg-light d-flex align-items-center justify-content-center py-5">
       <div className="row w-50 mx-auto justify-content-center">
-        <div className="col-12 col-md-12 col-lg-12 col-sm-12">
+        <div className="col-12">
           <div className="card shadow-lg border-0 rounded-3">
             <div className="card-header bg-success text-white text-center py-4 rounded-top-3">
               <h2 className="h3 mb-0 fw-bold">
-                <i className="bi bi-person-circle me-2"></i>
-                SignUp
+                <i className="bi bi-person-plus-fill me-2"></i>
+                Create Account
               </h2>
-              <p className="mb-0 opacity-75 mt-2">
-                Welcome back! Please sign up.
-              </p>
+              <p className="mb-0 opacity-75 mt-2">Join us to start exploring meals!</p>
             </div>
 
             <div className="card-body p-4 p-md-5">
-              {/* Demo credentials alert */}
-              <div
-                className="alert alert-success d-flex align-items-center mb-4"
-                role="alert"
-              >
-                <i className="bi bi-info-circle-fill me-2"></i>
-                {/* <div>
-                  <small className="fw-bold">Demo Credentials:</small>
-                  <br />
-                  <small>Username: <strong>user</strong></small>
-                  <br />
-                  <small>Password: <strong>password</strong></small>
-                </div> */}
-              </div>
-
-              <form onSubmit={handleSubmit}>
-                {/* Email Field */}
+              <form onSubmit={handleSignup}>
+                {/* Username Field */}
                 <div className="mb-4">
-                  <label htmlFor="email" className="form-label fw-semibold">
+                  <label htmlFor="username" className="form-label fw-semibold">
                     <i className="fa fa-user me-1"></i>
-                    Email
+                    Username
                   </label>
-                  <div className="input-group">
-                    {/* <span className="input-group-text bg-light border-end-0">
-                      <i className="bi bi-person text-muted"></i>
-                    </span> */}
-                    <input
-                      id="username"
-                      type="email"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      required
-                      className="form-control border-success "
-                      placeholder="Enter your Email Address"
-                      disabled={isLoading}
-                    />
-                  </div>
-                </div>
-
-                {/* FirstName Field */}
-                <div className="mb-4">
-                  <label htmlFor="password" className="form-label fw-semibold">
-                    <i className="fa fa-unlock-alt me-1"></i>
-                    First Name
-                  </label>
-                  <div className="input-group">
-                    {/* <span className="input-group-text bg-light border-end-0">
-                      <i className="bi bi-key "></i>
-                    </span> */}
-                    <input
-                      id="FirstName"
-                      type="text"
-                      value={firstname}
-                      // onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className="form-control border-success"
-                      placeholder="Enter your FirstName"
-                      disabled={isLoading}
-                    />
-                  </div>
-                </div>
-
-                {/* LastName Field */}
-                <div className="mb-4">
-                  <label htmlFor="password" className="form-label fw-semibold">
-                    <i className="fa fa-unlock-alt me-1"></i>
-                    Last Name
-                  </label>
-                  <div className="input-group">
-                    {/* <span className="input-group-text bg-light border-end-0">
-                      <i className="bi bi-key "></i>
-                    </span> */}
-                    <input
-                      id="LastName"
-                      type="text"
-                      value={lastname}
-                      // onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className="form-control border-success"
-                      placeholder="Enter your LastName"
-                      disabled={isLoading}
-                    />
-                  </div>
+                  <input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    className="form-control border-success"
+                    placeholder="Choose a username"
+                    disabled={isLoading}
+                  />
                 </div>
 
                 {/* Password Field */}
@@ -139,62 +75,37 @@ const Signup = () => {
                     <i className="fa fa-unlock-alt me-1"></i>
                     Password
                   </label>
-                  <div className="input-group">
-                    {/* <span className="input-group-text bg-light border-end-0">
-                      <i className="bi bi-key "></i>
-                    </span> */}
-                    <input
-                      id="Password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className="form-control border-success"
-                      placeholder="Enter your Password"
-                      disabled={isLoading}
-                    />
-                  </div>
+                  <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="form-control border-success"
+                    placeholder="Create a password"
+                    disabled={isLoading}
+                  />
                 </div>
 
-                {/* ConfirmPassword Field */}
+                {/* Confirm Password */}
                 <div className="mb-4">
-                  <label htmlFor="password" className="form-label fw-semibold">
-                    <i className="fa fa-unlock-alt me-1"></i>
-                    Confirm Your Password
+                  <label htmlFor="confirmPassword" className="form-label fw-semibold">
+                    <i className="fa fa-check-circle me-1"></i>
+                    Confirm Password
                   </label>
-                  <div className="input-group">
-                    {/* <span className="input-group-text bg-light border-end-0">
-                      <i className="bi bi-key "></i></span> */}
-                    <input
-                      id="Password"
-                      type="password"
-                      value={password}
-                      onChangeb={(e) => setPassword(e.target.value)}
-                      required
-                      className="form-control border-success"
-                      placeholder="Enter your Password"
-                      disabled={isLoading}
-                    />
-                  </div>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    className="form-control border-success"
+                    placeholder="Re-enter your password"
+                    disabled={isLoading}
+                  />
                 </div>
 
-                {/* <div className="d-flex justify-content-between align-items-center mb-4">
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="rememberMe"
-                    />
-                    <label className="form-check-label small" htmlFor="rememberMe">
-                      Remember me
-                    </label>
-                  </div>
-                  <a href="#" className="small text-decoration-none text-success">
-                    Forgot password?
-                  </a>
-                </div> */}
-
-                {/* Submit Button */}
+                {/* Signup Button */}
                 <button
                   type="submit"
                   className="btn btn-success w-100 py-2 fw-semibold rounded-2"
@@ -202,20 +113,30 @@ const Signup = () => {
                 >
                   {isLoading ? (
                     <>
-                      <span
-                        className="spinner-border spinner-border-sm  me-2"
-                        role="status"
-                      ></span>
-                      Signing in...
+                      <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                      Creating account...
                     </>
                   ) : (
                     <>
-                      <i className="bi bi-box-arrow-in-right me-2"></i>
-                      Sign In
+                      <i className="bi bi-person-check-fill me-2"></i>
+                      Sign Up
                     </>
                   )}
                 </button>
               </form>
+
+              {/* Redirect to Login */}
+              <div className="text-center mt-3">
+                <small>
+                  Already have an account?{" "}
+                  <button
+                    className="btn btn-link p-0 text-success text-decoration-none fw-semibold"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login here
+                  </button>
+                </small>
+              </div>
             </div>
           </div>
         </div>

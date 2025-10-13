@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import SearchForm from "../components/SearchForm";
 import LoadIndicator from "../components/LoadIndicator";
 import { useState, useEffect } from "react";
+import Logout from "../components/Logout"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Use Vite env variable
 
@@ -118,12 +119,13 @@ const Home = () => {
         </div>
       </div>
 
-      {alertVisibile && (
+      {/* {alertVisibile && (
         <Alert onClose={() => setAlertVisibility(false)}>My Alert</Alert>
       )}
       <Button onClick={() => setAlertVisibility(true)} color="success">
         My Button
-      </Button>
+      </Button> */}
+      <Logout />
 
       <Footer />
     </>
